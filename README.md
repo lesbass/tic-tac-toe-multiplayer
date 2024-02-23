@@ -14,7 +14,7 @@ or
 - run `dotnet run`
 - the server should be accepting calls on url: `https://localhost:5001`
 
-###Frontend:
+### Frontend:
 - (TL;DR;) run `make client`
 
 or
