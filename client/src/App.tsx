@@ -57,8 +57,7 @@ const App = () => {
                 </div>)}
             </div>
             <div>
-                <button onClick={() => reset()}>Reset
-                </button>
+                <button onClick={() => reset()}>Reset</button>
             </div>
         </div>
     );
