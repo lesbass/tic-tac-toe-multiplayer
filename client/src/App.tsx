@@ -2,6 +2,10 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import Connector from './signalr-connection';
 import {Game} from "./types";
+import Cross from "./Cross";
+import Circle from "./Circle";
+import PlayerSelection from "./PlayerSelection";
+import Marker from "./Marker";
 
 const App = () => {
     const {setTile, getGame, reset, events} = Connector();
@@ -19,24 +23,21 @@ const App = () => {
 
     return (
         <div className="App">
-            <div>
-                <button style={{background: player === 1 ? "red" : "green"}} onClick={() => setPlayer(1)}>Player 1
-                </button>
-                <button style={{background: player === 2 ? "red" : "green"}} onClick={() => setPlayer(2)}>Player 2
-                </button>
-            </div>
-            <hr/>
+            <PlayerSelection player={player} setPlayer={setPlayer}/>
             {game.winner ? <div>
-                Winner: Player {game.winner}
+                🏆 Winner: <Marker player={game.winner}/>
             </div> : <div>
-                Turn: Player {game.turn}
+                {game.turn === player ? "🎲 Your turn" : "⏱️ Opponent's turn"}
             </div>}
             <hr/>
-            <div>
-                {Array.from({length: 3}).map((_, y) => <div>
+            <div style={{display: "inline-block"}}>
+                {Array.from({length: 3}).map((_, y) => <div style={{
+                    display: "flex",
+                    flexDirection: "row"
+                }}>
                     {Array.from({length: 3}).map((_, x) => {
                         const currentTile = game.tiles.find(it => it.x === x && it.y === y)?.player;
-                        const tileColor = currentTile === 1 ? "red" : currentTile === 2 ? "blue" : "white";
+                        const tileColor = currentTile === player ? "lightyellow" : '';
                         const onClick = () => {
                             if (game.turn !== player || game.winner) return;
                             if (!currentTile) {
@@ -48,14 +49,18 @@ const App = () => {
                             style={{
                                 width: 50,
                                 height: 50,
-                                display: "inline-block",
                                 border: "1px solid black",
-                                background: tileColor
+                                display: "flex",
+                                backgroundColor: tileColor,
                             }}
-                            onClick={onClick}></div>;
+                            onClick={onClick}>
+                            {currentTile === 1 && <Cross/>}
+                            {currentTile === 2 && <Circle/>}
+                        </div>;
                     })}
                 </div>)}
             </div>
+            <hr/>
             <div>
                 <button onClick={() => reset()}>Reset</button>
             </div>
