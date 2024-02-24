@@ -1,5 +1,3 @@
-namespace server;
-
 public class Game
 {
     public Game()
@@ -11,7 +9,7 @@ public class Game
     public int? Winner { get; set; }
     public int Turn { get; set; } = 1;
 
-    public Game Reset()
+    public void Reset()
     {
         Tiles = [];
         for (var y = 0; y < 3; y++)
@@ -19,8 +17,6 @@ public class Game
             Tiles.Add(new Tile(x, y));
         Winner = null;
         Turn = 1;
-
-        return this;
     }
 
     private static void ValidateCoordinates(int x, int y)
@@ -33,7 +29,7 @@ public class Game
         if (player is not null && player != 1 && player != 2) throw new Exception("Invalid player.");
     }
 
-    public Game SetTile(int x, int y, int? player)
+    public void SetTile(int x, int y, int? player)
     {
         ValidateCoordinates(x, y);
         ValidatePlayer(player);
@@ -43,18 +39,30 @@ public class Game
 
         Turn = 3 - Turn;
         CheckWinner();
-
-        return this;
     }
 
     private void CheckWinner()
     {
-        // TODO: Add the actual logics
+        Winner = GetWinner(Tiles);
+    }
+
+    private static int? GetWinner(List<Tile> tiles)
+    {
         for (var i = 1; i <= 2; i++)
         {
-            var tilesPlayer = Tiles.Where(it => it.Player == i).ToList();
-            if (tilesPlayer.Count == 3) Winner = i;
+            var tilesPlayer = tiles.Where(it => it.Player == i).ToList();
+
+            var wonByRow = tilesPlayer.GroupBy(it => it.Y).Any(it => it.Count() == 3);
+            var wonByColumn = tilesPlayer.GroupBy(it => it.X).Any(it => it.Count() == 3);
+            var wonByDiagonal1 = tilesPlayer.Count(it => it.X == it.Y) == 3;
+            var wonByDiagonal2 = tilesPlayer.Count(it => it.X == 2 - it.Y) == 3;
+
+            if (wonByColumn || wonByRow || wonByDiagonal1 || wonByDiagonal2) return i;
         }
+
+        if (tiles.All(it => it.Player is not null)) return -1;
+
+        return null;
     }
 
     public record Tile(int X, int Y, int? Player = null);

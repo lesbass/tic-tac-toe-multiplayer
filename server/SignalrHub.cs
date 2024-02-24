@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
 
-namespace server;
 
 public class SignalrHub(Game game) : Hub
 {
