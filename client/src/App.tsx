@@ -8,16 +8,13 @@ import PlayerSelection from "./PlayerSelection";
 import Winner from "./Winner";
 
 const App = () => {
-    const {setTile, getGame, reset, events} = Connector();
+    const {setTile, getGame, reset, events, connection: {state}} = Connector();
     const [game, setGame] = useState<Game>();
     const [player, setPlayer] = useState(1);
 
     useEffect(() => {
-        setTimeout(() => {
-            events(setGame);
-            getGame();
-        }, 200);
-    }, [setGame, getGame, events]);
+        events(setGame);
+    }, [setGame, getGame, events, state]);
 
     if (!game) return (<div>Loading...</div>);
 
@@ -29,7 +26,7 @@ const App = () => {
             </div>}
             <hr/>
             <div style={{display: "inline-block"}}>
-                {Array.from({length: 3}).map((_, y) => <div style={{
+                {Array.from({length: 3}).map((_, y) => <div key={`row${y}`} style={{
                     display: "flex",
                     flexDirection: "row"
                 }}>
@@ -44,6 +41,7 @@ const App = () => {
                             }
                         }
                         return <div
+                            key={`tile${x}${y}`}
                             style={{
                                 width: 50,
                                 height: 50,
