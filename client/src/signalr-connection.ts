@@ -1,7 +1,7 @@
 import * as signalR from "@microsoft/signalr";
 import {Game} from "./types";
 
-const URL = process.env.HUB_ADDRESS ?? "https://localhost:5001/hub"; //or whatever your backend port is
+const URL = process.env.REACT_APP_HUB_ADDRESS ?? "https://localhost:5001/hub"; //or whatever your backend port is
 class Connector {
     private connection: signalR.HubConnection;
     public events: (onSetGame: (game: Game) => void) => void;
