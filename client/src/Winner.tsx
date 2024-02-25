@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Winner = ({player}: Props) => {
-    if (player == -1) return <div>💤 Draw</div>
+    if (player === -1) return <div>💤 Draw</div>
     return <>🏆 Winner: <Marker player={player}/></>
 }
 

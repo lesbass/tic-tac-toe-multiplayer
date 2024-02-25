@@ -17,7 +17,7 @@ const App = () => {
             events(setGame);
             getGame();
         }, 200);
-    }, [setGame, getGame])
+    }, [setGame, getGame, events]);
 
     if (!game) return (<div>Loading...</div>);
 
