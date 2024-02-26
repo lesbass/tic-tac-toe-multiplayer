@@ -13,8 +13,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS dotnet-builder
 WORKDIR /source
 COPY server/ .
 
-ARG configuration=Release
-
 WORKDIR /source
 RUN dotnet restore
 RUN dotnet publish -c Release -o "/executable" --no-restore
