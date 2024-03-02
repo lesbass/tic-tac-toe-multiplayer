@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
 
-
 public class SignalrHub(Game game) : Hub
 {
     public async Task GetGame()
@@ -8,15 +7,15 @@ public class SignalrHub(Game game) : Hub
         await Clients.All.SendAsync("setGame", game);
     }
 
-    public Task SetTile(int x, int y, int? player)
+    public async Task SetTile(int x, int y, int? player)
     {
         game.SetTile(x, y, player);
-        return GetGame();
+        await GetGame();
     }
 
-    public Task Reset()
+    public async Task Reset()
     {
         game.Reset();
-        return GetGame();
+        await GetGame();
     }
 }

@@ -5,7 +5,7 @@ public class Game
         Reset();
     }
 
-    public List<Tile> Tiles { get; set; } = new();
+    public List<Tile> Tiles { get; set; } = [];
     public int? Winner { get; set; }
     public int Turn { get; set; } = 1;
 
@@ -46,7 +46,7 @@ public class Game
         Winner = GetWinner(Tiles);
     }
 
-    private static int? GetWinner(List<Tile> tiles)
+    private static int? GetWinner(IReadOnlyCollection<Tile> tiles)
     {
         for (var i = 1; i <= 2; i++)
         {
