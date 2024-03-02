@@ -2,21 +2,20 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import Connector from './signalr-connection';
 import {Game} from "./types";
-import Cross from "./Cross";
-import Circle from "./Circle";
 import PlayerSelection from "./PlayerSelection";
 import Winner from "./Winner";
+import Grid from "./Grid";
 
 const App = () => {
-    const {setTile, getGame, reset, events, connection: {state}} = Connector();
+    const {setTile, reset, events} = Connector();
     const [game, setGame] = useState<Game>();
     const [player, setPlayer] = useState(1);
 
     useEffect(() => {
         events(setGame);
-    }, [setGame, getGame, events, state]);
+    }, [setGame, events]);
 
-    if (!game) return (<div>Loading...</div>);
+    if (!game) return (<h3 style={{textAlign: "center"}}>Loading...</h3>);
 
     return (
         <div className="App">
@@ -25,40 +24,10 @@ const App = () => {
                 {game.turn === player ? "🎲 Your turn" : "⏱️ Opponent's turn"}
             </div>}
             <hr/>
-            <div style={{display: "inline-block"}}>
-                {Array.from({length: 3}).map((_, y) => <div key={`row${y}`} style={{
-                    display: "flex",
-                    flexDirection: "row"
-                }}>
-                    {Array.from({length: 3}).map((_, x) => {
-                        const currentTile = game.tiles.find(it => it.x === x && it.y === y)?.player;
-                        const tileColor = currentTile === player ? "lightyellow" : '';
-                        const onClick = () => {
-                            if (game.turn !== player || game.winner) return;
-                            if (!currentTile) {
-                                console.log("SetGame", x, y, player)
-                                setTile(x, y, player);
-                            }
-                        }
-                        return <div
-                            key={`tile${x}${y}`}
-                            style={{
-                                width: 50,
-                                height: 50,
-                                border: "1px solid black",
-                                display: "flex",
-                                backgroundColor: tileColor,
-                            }}
-                            onClick={onClick}>
-                            {currentTile === 1 && <Cross/>}
-                            {currentTile === 2 && <Circle/>}
-                        </div>;
-                    })}
-                </div>)}
-            </div>
+            <Grid player={player} game={game} setTile={setTile}/>
             <hr/>
             <div>
-                <button onClick={() => reset()}>Reset</button>
+                <button onClick={reset}>Reset</button>
             </div>
         </div>
     );

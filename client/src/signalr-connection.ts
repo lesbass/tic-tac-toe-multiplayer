@@ -1,9 +1,10 @@
 import * as signalR from "@microsoft/signalr";
 import {Game} from "./types";
 
-const URL = process.env.REACT_APP_HUB_ADDRESS ?? "https://localhost:5001/hub"; //or whatever your backend port is
+const URL = process.env.REACT_APP_HUB_ADDRESS ?? "https://localhost:5001/hub";
+
 class Connector {
-    public connection: signalR.HubConnection;
+    private connection: signalR.HubConnection;
     public events: (onSetGame: (game: Game) => void) => void;
     static instance: Connector;
 
@@ -23,16 +24,16 @@ class Connector {
         };
     }
 
-    public getGame = () => {
-        this.connection.send("getGame").then(x => console.log("sent"))
+    private getGame = () => {
+        this.connection.send("getGame").catch(err => console.error(err));
     }
 
     public setTile = (x: number, y: number, player: number) => {
-        this.connection.send("setTile", x, y, player).then(x => console.log("sent"))
+        this.connection.send("setTile", x, y, player).catch(err => console.error(err));
     }
 
     public reset = () => {
-        this.connection.send("reset").then(x => console.log("sent"))
+        this.connection.send("reset").catch(err => console.error(err));
     }
 
     public static getInstance(): Connector {

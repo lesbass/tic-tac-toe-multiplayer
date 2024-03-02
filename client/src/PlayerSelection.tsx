@@ -1,5 +1,5 @@
 import React from "react";
-import Marker from "./Marker";
+import Marker from "./Icons/Marker";
 
 interface Props {
     player: number;

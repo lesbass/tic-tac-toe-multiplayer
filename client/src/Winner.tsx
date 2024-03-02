@@ -1,4 +1,4 @@
-import Marker from "./Marker";
+import Marker from "./Icons/Marker";
 import React from "react";
 
 interface Props {
