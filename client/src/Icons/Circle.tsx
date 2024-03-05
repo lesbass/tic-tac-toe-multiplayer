@@ -1,7 +1,7 @@
-import './Circle.css';
+import "./Circle.css";
 
 const Circle = () => {
-    return <div className="circle"/>
-}
+  return <div className="circle" />;
+};
 
-export default Circle
+export default Circle;

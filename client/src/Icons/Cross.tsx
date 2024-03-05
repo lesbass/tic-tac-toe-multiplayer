@@ -1,7 +1,7 @@
-import './Cross.css';
+import "./Cross.css";
 
 const Cross = () => {
-    return <div className="cross"/>
-}
+  return <div className="cross" />;
+};
 
-export default Cross
+export default Cross;

@@ -4,4 +4,4 @@ server:
 	cd server && dotnet run
 
 client:
-	cd client && npm i && npm start
+	cd client && npm i && npm run dev

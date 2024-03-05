@@ -1,6 +1,6 @@
-FROM node:16-alpine AS react-builder
+FROM node:21-alpine AS react-builder
 ENV NODE_ENV development
-ENV REACT_APP_HUB_ADDRESS /hub
+ENV VITE_HUB_ADDRESS /hub
 
 WORKDIR /app
 COPY client/package.json .
@@ -20,6 +20,6 @@ RUN dotnet publish -c Release -o "/executable" --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=dotnet-builder /executable .
-COPY --from=react-builder /app/build wwwroot/
+COPY --from=react-builder /app/dist wwwroot/
 
 ENTRYPOINT ["dotnet", "server.dll"]
