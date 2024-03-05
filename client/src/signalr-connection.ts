@@ -15,7 +15,7 @@ class Connector {
       .build();
     this.connection
       .start()
-      .then((_) => this.getGame())
+      .then(() => this.getGame())
       .catch((err) => console.error(err));
 
     this.events = (onSetGame) => {
